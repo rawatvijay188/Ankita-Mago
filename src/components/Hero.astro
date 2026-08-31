@@ -1,6 +1,11 @@
 ---
+import { existsSync } from 'node:fs';
 import { doctor, contact, social } from '../data/site';
 import Icon from './Icon.astro';
+
+// Drop a portrait at public/images/doctor.jpg and it appears automatically —
+// no code change needed. Until then, the labelled placeholder shows.
+const hasPhoto = existsSync(new URL(`../../public${doctor.photo}`, import.meta.url));
 
 // Follower count is the strongest number she has and the only one that is
 // publicly verifiable today. The other two need her input — until then they
@@ -88,21 +93,32 @@ const stats = [
       <div
         class="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-cream-100 shadow-lift ring-1 ring-plum-900/5"
       >
-        <div
-          class="grid h-full w-full place-items-center bg-[linear-gradient(160deg,var(--color-rose-100),var(--color-sage-100))] p-8 text-center"
-        >
-          <div>
-            <div
-              class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-white/70 text-rose-500"
-            >
-              <Icon name="heart" class="h-7 w-7" />
+        {
+          hasPhoto ? (
+            <img
+              src={doctor.photo}
+              alt={`${doctor.name}, ${doctor.title}`}
+              width="800"
+              height="1000"
+              class="h-full w-full object-cover"
+            />
+          ) : (
+            <div class="grid h-full w-full place-items-center bg-[linear-gradient(160deg,var(--color-rose-100),var(--color-sage-100))] p-8 text-center">
+              <div>
+                <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-white/70 text-rose-500">
+                  <Icon name="heart" class="h-7 w-7" />
+                </div>
+                <p class="mt-4 font-display text-lg text-plum-700">Professional photograph</p>
+                <p class="mt-1 text-sm text-plum-500">
+                  Add to <code class="rounded bg-white/60 px-1">public/images/doctor.jpg</code>
+                </p>
+                <p class="mt-3 text-xs text-plum-500">
+                  Needs ~800×1000. Her Instagram DP is only 150×150 — too small for this slot.
+                </p>
+              </div>
             </div>
-            <p class="mt-4 font-display text-lg text-plum-700">Professional photograph</p>
-            <p class="mt-1 text-sm text-plum-500">
-              Add to <code class="rounded bg-white/60 px-1">public/images/doctor.jpg</code>
-            </p>
-          </div>
-        </div>
+          )
+        }
       </div>
 
       <!-- floating reassurance card -->
