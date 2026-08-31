@@ -42,7 +42,8 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
         nav.map((item) => (
           <a
             href={item.href}
-            class="text-sm text-plum-700 transition hover:text-rose-600"
+            data-navlink
+            class="relative text-sm text-plum-700 transition after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-rose-500 after:transition-transform after:duration-200 hover:text-rose-600 aria-[current]:text-rose-600 aria-[current]:after:scale-x-100"
           >
             {item.label}
           </a>
@@ -59,3 +60,65 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
     </a>
   </div>
 </header>
+
+<script>
+  /*
+    Scrollspy: highlight the nav link for the section currently in view.
+
+    A section counts as "current" once its top passes under the sticky
+    header and before it leaves the upper part of the viewport. When two
+    qualify at once — a short section fully on screen above a long one —
+    the earliest in document order wins, which is what reading position
+    actually feels like.
+  */
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('a[data-navlink]')];
+
+  const sections = links
+    .map((link) => {
+      const id = link.getAttribute('href')?.slice(1);
+      const el = id ? document.getElementById(id) : null;
+      return el ? { link, el } : null;
+    })
+    .filter((s): s is { link: HTMLAnchorElement; el: HTMLElement } => s !== null);
+
+  if (sections.length) {
+    const visible = new Set<string>();
+
+    const setCurrent = (target: HTMLAnchorElement | null) => {
+      for (const { link } of sections) {
+        if (link === target) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      }
+    };
+
+    const update = () => {
+      // Bottom of the page: the last section can never reach the top of
+      // the viewport, so pin it explicitly.
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
+      if (atBottom) {
+        setCurrent(sections[sections.length - 1].link);
+        return;
+      }
+      const current = sections.find((s) => visible.has(s.el.id));
+      setCurrent(current ? current.link : null);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+        update();
+      },
+      // Top inset clears the sticky header; the bottom inset means a
+      // section only becomes current once it reaches the upper third.
+      { rootMargin: '-72px 0px -66% 0px', threshold: 0 }
+    );
+
+    for (const { el } of sections) observer.observe(el);
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>
