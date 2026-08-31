@@ -10,7 +10,7 @@ const hasPhoto = existsSync(new URL(`../../public${doctor.photo}`, import.meta.u
 const hasAvatar = existsSync(new URL('../../public/images/avatar.jpg', import.meta.url));
 ---
 
-<section id="top" class="relative overflow-hidden px-[18px] pb-[34px] md:px-10">
+<section id="top" class="relative overflow-hidden pb-[34px]">
   <div
     aria-hidden="true"
     class="pointer-events-none absolute -top-[180px] -right-20 -left-20 h-[520px] bg-[radial-gradient(50%_55%_at_60%_45%,var(--color-rose-100),transparent_72%)]"
@@ -18,7 +18,7 @@ const hasAvatar = existsSync(new URL('../../public/images/avatar.jpg', import.me
   </div>
 
   <div
-    class="relative pt-7 md:grid md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-14"
+    class="shell relative pt-7 md:grid md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-14"
   >
     <!-- Arch-topped portrait. Reads as considered rather than as a
          rectangular stock crop. -->

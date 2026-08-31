@@ -68,8 +68,12 @@ const schema = {
       Skip to content
     </a>
 
-    <!-- Phone-width shell that opens up at the md breakpoint (760px). -->
-    <div class="relative mx-auto w-full max-w-[480px] bg-cream-50 md:max-w-[1120px]">
+    <!--
+      Full-bleed sections, centred content. Every section paints edge to
+      edge and constrains its own contents with `.shell`, so backgrounds
+      never stop short of the window and there are no gutters at any width.
+    -->
+    <div class="relative">
       {
         IS_DRAFT && (
           <div class="flex items-center justify-center gap-2 bg-plum-900 px-4 py-[7px] text-[10px] tracking-[0.08em] text-cream-100/70 uppercase">

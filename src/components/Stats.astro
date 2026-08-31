@@ -10,11 +10,14 @@ const babies = splitTag(doctor.babiesDelivered);
 const tele = splitTag(contact.teleconsult);
 
 // 1px gaps come from the container background showing through the cells.
-const cell = 'bg-cream-50 px-[18px] py-5';
+// Cell padding matches `.shell` so the first cell's text lines up with
+// every other section.
+const cell = 'bg-cream-50 px-[18px] py-5 md:px-10';
 ---
 
+<div class="border-y border-plum-900/10">
 <div
-  class="grid grid-cols-2 gap-px border-y border-plum-900/10 bg-plum-900/10 md:grid-cols-4"
+  class="mx-auto grid w-full max-w-[1120px] grid-cols-2 gap-px bg-plum-900/10 md:grid-cols-4"
 >
   <div class={cell}>
     <p class="font-display text-[30px] tracking-[-0.03em] text-plum-900">
@@ -45,11 +48,12 @@ const cell = 'bg-cream-50 px-[18px] py-5';
 
   <!-- Her audience is nationwide, so teleconsulting belongs in the headline
        numbers rather than buried in the Visit section. -->
-  <div class="bg-sage-100 px-[18px] py-5">
+  <div class="bg-sage-100 px-[18px] py-5 md:px-10">
     <span class="block text-sage-600"><Icon name="chat" class="h-[22px] w-[22px]" /></span>
     <p class="mt-2 text-[11px] tracking-[0.1em] text-sage-600 uppercase">
       online consults{' '}
       {tele.note && <span class="ph-mark text-[11px] tracking-normal normal-case">[{tele.note}]</span>}
     </p>
   </div>
+</div>
 </div>

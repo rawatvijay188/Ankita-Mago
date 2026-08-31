@@ -11,7 +11,7 @@ const hasAvatar = existsSync(new URL('../../public/images/avatar.jpg', import.me
 <header
   class="sticky top-0 z-30 border-b border-plum-900/[0.07] bg-cream-50/90 backdrop-blur-[14px]"
 >
-  <div class="flex items-center justify-between gap-3 px-[18px] py-[11px] md:px-10">
+  <div class="shell flex items-center justify-between gap-3 py-[11px]">
     <a href="#top" class="flex items-center gap-[9px]">
       {
         hasAvatar ? (
@@ -84,7 +84,7 @@ const hasAvatar = existsSync(new URL('../../public/images/avatar.jpg', import.me
   <!-- Collapsible panel. `hidden` keeps it out of the keyboard and
        screen-reader order while closed. -->
   <div id="mobile-menu" hidden class="border-t border-plum-900/[0.07] md:hidden">
-    <nav class="px-[18px] py-2" aria-label="Mobile">
+    <nav class="shell py-2" aria-label="Mobile">
       <ul class="divide-y divide-plum-900/[0.07]">
         {
           nav.map((item) => (

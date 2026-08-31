@@ -10,8 +10,11 @@
     "check": "astro check"
   },
   "dependencies": {
-    "astro": "^5.13.0",
     "@tailwindcss/vite": "^4.1.0",
+    "astro": "^5.13.0",
     "tailwindcss": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0"
   }
 }

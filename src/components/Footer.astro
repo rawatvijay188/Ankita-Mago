@@ -4,7 +4,8 @@ import { doctor, footerNav, social } from '../data/site';
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-plum-900 px-[18px] pt-10 pb-8 text-cream-100 md:px-10">
+<footer class="bg-plum-900 pt-10 pb-8 text-cream-100">
+  <div class="shell">
   <p class="opsz-title font-display text-[26px] tracking-[-0.03em] text-cream-50">
     {doctor.name}
   </p>
@@ -56,4 +57,5 @@ const year = new Date().getFullYear();
   <!-- Clearance for the sticky action bar, which pulls itself up over
        this space with a negative margin. -->
   <div class="h-[76px] md:hidden" aria-hidden="true"></div>
+</div>
 </footer>
