@@ -1,0 +1,48 @@
+---
+import { services, contact } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<section id="services" class="bg-cream-100 py-20 lg:py-28">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8">
+    <div class="max-w-2xl">
+      <p class="text-xs font-medium tracking-[0.2em] text-rose-500 uppercase">Services</p>
+      <h2 class="mt-4 text-3xl leading-tight text-plum-900 sm:text-4xl">
+        Every stage, under one roof
+      </h2>
+      <p class="mt-4 text-lg text-plum-700">
+        From a first period to menopause, and everything pregnancy brings in between.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        services.map((s) => (
+          <article class="group flex flex-col rounded-2xl bg-white p-6 shadow-soft ring-1 ring-plum-900/[0.04] transition hover:shadow-lift">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-rose-100 text-rose-500 transition group-hover:bg-rose-500 group-hover:text-white">
+              <Icon name={s.icon} class="h-5.5 w-5.5" />
+            </span>
+            <h3 class="mt-5 text-xl text-plum-900">{s.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-plum-500">{s.blurb}</p>
+            <ul class="mt-5 space-y-2 border-t border-cream-200 pt-5">
+              {s.points.map((p) => (
+                <li class="flex items-start gap-2.5 text-sm text-plum-700">
+                  <Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-sage-500" />
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 text-sm text-plum-500">
+      Not sure which applies to you?
+      <a href={contact.bookingUrl} class="font-medium text-rose-600 underline underline-offset-4">
+        Book a consultation
+      </a>
+      and we will work it out together.
+    </p>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+---
+import { doctor, credentials } from '../data/site';
+import Icon from './Icon.astro';
+
+const values = [
+  {
+    icon: 'chat',
+    title: 'You will be listened to',
+    body: 'No question is too small, and nothing you are worried about is dismissed as normal without being looked at.',
+  },
+  {
+    icon: 'shield',
+    title: 'Complete privacy',
+    body: 'Every consultation is confidential. What you share stays between you and your doctor.',
+  },
+  {
+    icon: 'check',
+    title: 'Honest guidance',
+    body: 'Clear explanations of your options — including when the right answer is to wait, or to see someone else.',
+  },
+];
+---
+
+<section id="about" class="mx-auto max-w-6xl px-5 py-20 lg:px-8 lg:py-28">
+  <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+    <div>
+      <p class="text-xs font-medium tracking-[0.2em] text-rose-500 uppercase">About</p>
+      <h2 class="mt-4 text-3xl leading-tight text-plum-900 sm:text-4xl">
+        Care that begins with being heard
+      </h2>
+      <div class="mt-6 rounded-2xl bg-cream-100 p-6">
+        <p class="text-sm text-plum-500">Languages spoken</p>
+        <p class="mt-2 text-plum-900">
+          <span class="ph-mark">{credentials.languages.join(' · ')}</span>
+        </p>
+        <p class="mt-5 text-sm text-plum-500">Registration</p>
+        <p class="mt-2 text-plum-900"><span class="ph-mark">{doctor.registration}</span></p>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-lg leading-relaxed text-plum-700">{doctor.intro}</p>
+
+      <div class="mt-10 grid gap-5 sm:grid-cols-3">
+        {
+          values.map((v) => (
+            <div class="rounded-2xl border border-cream-200 bg-white p-5 shadow-soft">
+              <span class="grid h-10 w-10 place-items-center rounded-full bg-rose-100 text-rose-500">
+                <Icon name={v.icon} />
+              </span>
+              <h3 class="mt-4 text-base text-plum-900">{v.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-plum-500">{v.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

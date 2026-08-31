@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+import { doctor, contact } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${doctor.name} — ${doctor.title}`,
+  description = doctor.tagline,
+} = Astro.props;
+
+// Search engines read this. Every bracketed value must be replaced
+// before launch or it will be indexed as-is.
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Physician',
+  name: doctor.name,
+  medicalSpecialty: ['Obstetric', 'Gynecologic'],
+  description: doctor.tagline,
+  telephone: contact.phone,
+  email: contact.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: contact.addressLines[0],
+    addressLocality: contact.addressLines[1],
+    addressCountry: 'IN',
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-plum-900 focus:px-5 focus:py-2 focus:text-cream-50"
+    >
+      Skip to content
+    </a>
+    <slot />
+  </body>
+</html>

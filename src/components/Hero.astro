@@ -1,0 +1,116 @@
+---
+import { doctor, contact } from '../data/site';
+import Icon from './Icon.astro';
+
+const stats = [
+  { value: doctor.yearsExperience, label: 'years in practice' },
+  { value: doctor.babiesDelivered, label: 'babies delivered' },
+  { value: doctor.patientsCared, label: 'women cared for' },
+];
+---
+
+<section id="top" class="relative overflow-hidden">
+  <!-- soft ambient wash -->
+  <div
+    class="pointer-events-none absolute inset-x-0 -top-40 h-[36rem] bg-[radial-gradient(60%_60%_at_70%_35%,var(--color-rose-100),transparent_70%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="relative mx-auto grid max-w-6xl gap-12 px-5 pt-14 pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:px-8 lg:pt-24 lg:pb-24"
+  >
+    <div class="reveal">
+      <p
+        class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white/70 px-3.5 py-1.5 text-xs font-medium tracking-wide text-rose-600 uppercase"
+      >
+        <span class="h-1.5 w-1.5 rounded-full bg-sage-500"></span>
+        Now accepting new patients
+      </p>
+
+      <h1 class="mt-5 text-[2.5rem] leading-[1.05] text-plum-900 sm:text-5xl lg:text-[3.5rem]">
+        {doctor.headline}
+      </h1>
+
+      <p class="mt-5 max-w-lg text-lg leading-relaxed text-plum-700">
+        {doctor.tagline}
+      </p>
+
+      <p class="mt-4 max-w-lg text-sm text-plum-500">
+        {doctor.name} · <span class="ph-mark">{doctor.qualifications}</span> ·
+        <span class="ph-mark">{contact.addressLines[1]}</span>
+      </p>
+
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a
+          href={contact.bookingUrl}
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-rose-500 px-7 py-4 text-base font-medium text-white shadow-lift transition hover:bg-rose-600 active:scale-[0.99]"
+        >
+          Book an appointment
+          <Icon name="arrow" class="h-4 w-4" />
+        </a>
+        <a
+          href={contact.phoneHref}
+          class="inline-flex items-center justify-center gap-2 rounded-full border border-plum-900/15 bg-white px-7 py-4 text-base font-medium text-plum-900 transition hover:border-plum-900/35"
+        >
+          <Icon name="phone" class="h-4 w-4" />
+          <span class="ph-mark">{contact.phone}</span>
+        </a>
+      </div>
+
+      <dl class="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-cream-200 pt-8">
+        {
+          stats.map((s) => (
+            <div>
+              <dt class="sr-only">{s.label}</dt>
+              <dd>
+                <span class="block font-display text-3xl text-plum-900">
+                  <span class="ph-mark">{s.value}</span>+
+                </span>
+                <span class="mt-1 block text-sm text-plum-500">{s.label}</span>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <!-- Portrait. Replace the placeholder block with a real photograph. -->
+    <div class="reveal relative mx-auto w-full max-w-md lg:max-w-none">
+      <div
+        class="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-cream-100 shadow-lift ring-1 ring-plum-900/5"
+      >
+        <div
+          class="grid h-full w-full place-items-center bg-[linear-gradient(160deg,var(--color-rose-100),var(--color-sage-100))] p-8 text-center"
+        >
+          <div>
+            <div
+              class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-white/70 text-rose-500"
+            >
+              <Icon name="heart" class="h-7 w-7" />
+            </div>
+            <p class="mt-4 font-display text-lg text-plum-700">Professional photograph</p>
+            <p class="mt-1 text-sm text-plum-500">
+              Add to <code class="rounded bg-white/60 px-1">public/images/doctor.jpg</code>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- floating reassurance card -->
+      <div
+        class="absolute -bottom-5 left-1/2 w-[85%] -translate-x-1/2 rounded-2xl bg-white p-4 shadow-lift ring-1 ring-plum-900/5"
+      >
+        <div class="flex items-center gap-3">
+          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-sage-100 text-sage-500">
+            <Icon name="clock" class="h-4 w-4" />
+          </span>
+          <p class="text-sm leading-snug text-plum-700">
+            Unhurried consultations — <span class="ph-mark">[20–30 minutes]</span>, so
+            you can ask everything.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

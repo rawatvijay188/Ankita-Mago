@@ -1,0 +1,44 @@
+---
+import { doctor, contact, nav } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-cream-200/70 bg-cream-50/85 backdrop-blur-md"
+>
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 lg:px-8">
+    <a href="#top" class="group flex items-center gap-3">
+      <span
+        class="grid h-9 w-9 place-items-center rounded-full bg-rose-500 font-display text-sm text-white"
+        >AM</span
+      >
+      <span class="leading-tight">
+        <span class="block font-display text-base text-plum-900">{doctor.name}</span>
+        <span class="block text-[11px] tracking-wide text-plum-500 uppercase"
+          >{doctor.title}</span
+        >
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-7 lg:flex" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class="text-sm text-plum-700 transition hover:text-rose-600"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a
+      href={contact.bookingUrl}
+      class="hidden items-center gap-2 rounded-full bg-plum-900 px-5 py-2.5 text-sm font-medium text-cream-50 shadow-soft transition hover:bg-plum-700 sm:inline-flex"
+    >
+      Book an appointment
+      <Icon name="arrow" class="h-4 w-4" />
+    </a>
+  </div>
+</header>

@@ -1,0 +1,163 @@
+---
+import { contact } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<section id="visit" class="mx-auto max-w-6xl px-5 py-20 lg:px-8 lg:py-28">
+  <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+    <div>
+      <p class="text-xs font-medium tracking-[0.2em] text-rose-500 uppercase">Visit</p>
+      <h2 class="mt-4 text-3xl leading-tight text-plum-900 sm:text-4xl">
+        Clinic hours & location
+      </h2>
+
+      <div class="mt-8 space-y-6">
+        <div class="flex gap-4">
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-rose-100 text-rose-500">
+            <Icon name="pin" />
+          </span>
+          <div>
+            <p class="font-medium text-plum-900"><span class="ph-mark">{contact.clinicName}</span></p>
+            {
+              contact.addressLines.map((line) => (
+                <p class="text-plum-500">
+                  <span class="ph-mark">{line}</span>
+                </p>
+              ))
+            }
+            <a
+              href={contact.mapsUrl}
+              target="_blank"
+              rel="noopener"
+              class="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-rose-600 underline underline-offset-4"
+            >
+              Open in Google Maps
+              <Icon name="arrow" class="h-3.5 w-3.5" />
+            </a>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-rose-100 text-rose-500">
+            <Icon name="clock" />
+          </span>
+          <dl class="w-full">
+            {
+              contact.hours.map((h) => (
+                <div class="flex flex-wrap justify-between gap-x-6 gap-y-0.5 border-b border-cream-200 py-2.5 last:border-0">
+                  <dt class="text-plum-900">{h.days}</dt>
+                  <dd class="text-plum-500">
+                    <span class="ph-mark">{h.time}</span>
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+
+        <div class="flex gap-4 rounded-2xl bg-sage-100 p-5">
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-sage-500">
+            <Icon name="phone" />
+          </span>
+          <p class="text-sm leading-relaxed text-plum-700">
+            <span class="ph-mark">{contact.emergencyNote}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking -->
+    <div id="book" class="scroll-mt-28">
+      <div class="rounded-3xl bg-white p-7 shadow-lift ring-1 ring-plum-900/5 sm:p-9">
+        <h3 class="text-2xl text-plum-900">Request an appointment</h3>
+        <p class="mt-2 text-sm text-plum-500">
+          Send a request and the clinic will confirm your slot by phone, usually the
+          same day.
+        </p>
+
+        <!--
+          TODO (before launch): this form has no backend yet. Point `action` at
+          Formspree / Web3Forms / a clinic booking system, or replace the whole
+          block with the embed from Practo. Never collect medical details here —
+          name, number and a preferred time are enough.
+        -->
+        <form class="mt-7 space-y-4" action="#" method="post">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <label class="block">
+              <span class="text-sm text-plum-700">Your name</span>
+              <input
+                type="text"
+                name="name"
+                required
+                class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
+              />
+            </label>
+            <label class="block">
+              <span class="text-sm text-plum-700">Phone number</span>
+              <input
+                type="tel"
+                name="phone"
+                required
+                class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
+              />
+            </label>
+          </div>
+
+          <label class="block">
+            <span class="text-sm text-plum-700">Reason for visit</span>
+            <select
+              name="reason"
+              class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
+            >
+              <option>Pregnancy / antenatal check-up</option>
+              <option>Gynaecology consultation</option>
+              <option>Fertility consultation</option>
+              <option>Routine check-up</option>
+              <option>Something else</option>
+            </select>
+          </label>
+
+          <label class="block">
+            <span class="text-sm text-plum-700">Preferred day & time</span>
+            <input
+              type="text"
+              name="preferred"
+              placeholder="e.g. Tuesday evening"
+              class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition placeholder:text-plum-500/50 focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
+            />
+          </label>
+
+          <button
+            type="submit"
+            class="w-full rounded-full bg-rose-500 px-6 py-4 font-medium text-white shadow-soft transition hover:bg-rose-600 active:scale-[0.99]"
+          >
+            Request appointment
+          </button>
+
+          <p class="text-center text-xs text-plum-500">
+            Please do not share medical details in this form. In an emergency, call
+            <a href={contact.phoneHref} class="font-medium text-rose-600">the clinic</a>
+            directly.
+          </p>
+        </form>
+
+        <div class="mt-6 grid gap-3 border-t border-cream-200 pt-6 sm:grid-cols-2">
+          <a
+            href={contact.phoneHref}
+            class="inline-flex items-center justify-center gap-2 rounded-full border border-plum-900/15 px-5 py-3 text-sm font-medium text-plum-900 transition hover:border-plum-900/35"
+          >
+            <Icon name="phone" class="h-4 w-4" /> Call clinic
+          </a>
+          <a
+            href={contact.whatsappHref}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center justify-center gap-2 rounded-full border border-plum-900/15 px-5 py-3 text-sm font-medium text-plum-900 transition hover:border-plum-900/35"
+          >
+            <Icon name="chat" class="h-4 w-4" /> WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
