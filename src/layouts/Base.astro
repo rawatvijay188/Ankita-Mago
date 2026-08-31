@@ -59,6 +59,27 @@ const schema = {
       rel="stylesheet"
     />
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+    <script is:inline>
+      /*
+        Browsers restore the previous scroll position on reload, so the page
+        appears to open partway down — noticeable in dev, where the server
+        hot-reloads on every save. Opening the site should always start at
+        the top; an explicit #hash still wins.
+
+        `instant` because scroll-behavior is smooth, and we do not want to
+        watch the page animate up from wherever it was.
+      */
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if (!location.hash) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        addEventListener(
+          'DOMContentLoaded',
+          () => window.scrollTo({ top: 0, behavior: 'instant' }),
+          { once: true }
+        );
+      }
+    </script>
   </head>
   <body class={SHOW_TAGS ? 'tags-on' : ''}>
     <a

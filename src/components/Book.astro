@@ -39,7 +39,7 @@ const input = 'peer sr-only';
       <div class="mt-3 flex flex-wrap gap-2">
         {
           booking.reasons.map((r, i) => (
-            <label>
+            <label class="relative block">
               <input type="radio" name="reason" value={r} checked={i === 0} class={input} />
               <span class={pill}>{r}</span>
             </label>
@@ -55,7 +55,7 @@ const input = 'peer sr-only';
       <div class="mt-3 grid grid-cols-2 gap-2">
         {
           booking.modes.map((m, i) => (
-            <label>
+            <label class="relative block">
               <input type="radio" name="mode" value={m} checked={i === 0} class={input} />
               <span class="grid min-h-14 cursor-pointer place-items-center rounded-xl bg-white p-3 text-[14px] text-plum-700 shadow-[inset_0_0_0_1px_rgba(46,28,37,0.12)] transition peer-checked:bg-plum-900 peer-checked:text-cream-50 peer-checked:shadow-none peer-focus-visible:ring-2 peer-focus-visible:ring-rose-400">
                 {m}
@@ -73,7 +73,7 @@ const input = 'peer sr-only';
       <div class="rail mt-3 flex gap-2 overflow-x-auto pb-1 md:flex-wrap md:overflow-visible">
         {
           booking.times.map((t) => (
-            <label class="shrink-0">
+            <label class="relative block shrink-0">
               <input type="radio" name="time" value={t} class={input} />
               <span class={pill}>{t}</span>
             </label>
