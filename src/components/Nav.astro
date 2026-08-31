@@ -1,96 +1,91 @@
 ---
 import { existsSync } from 'node:fs';
-import { doctor, contact, nav } from '../data/site';
-import Icon from './Icon.astro';
+import { doctor, nav } from '../data/site';
 
 // A 150px Instagram profile picture is useless as a hero portrait but
-// perfectly sharp at 36px. Drop it at public/images/avatar.jpg.
+// perfectly sharp at 30px. Drop it at public/images/avatar.jpg.
 const avatar = '/images/avatar.jpg';
-const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
+const hasAvatar = existsSync(new URL('../../public/images/avatar.jpg', import.meta.url));
 ---
 
 <header
-  class="sticky top-0 z-40 border-b border-cream-200/70 bg-cream-50/85 backdrop-blur-md"
+  class="sticky top-0 z-30 border-b border-plum-900/[0.07] bg-cream-50/90 backdrop-blur-[14px]"
 >
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 lg:px-8">
-    <a href="#top" class="group flex items-center gap-3">
+  <div class="flex items-center justify-between gap-3 px-[18px] py-[11px] md:px-10">
+    <a href="#top" class="flex items-center gap-[9px]">
       {
         hasAvatar ? (
           <img
             src={avatar}
             alt=""
-            width="36"
-            height="36"
-            class="h-9 w-9 rounded-full object-cover ring-1 ring-plum-900/10"
+            width="30"
+            height="30"
+            class="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-plum-900/10"
           />
         ) : (
-          <span class="grid h-9 w-9 place-items-center rounded-full bg-rose-500 font-display text-sm text-white">
+          <span class="grid h-[30px] w-[30px] place-items-center rounded-full bg-rose-500 font-display text-[11px] text-white">
             AM
           </span>
         )
       }
-      <span class="leading-tight">
-        <span class="block font-display text-base text-plum-900">{doctor.name}</span>
-        <!-- Wraps to two lines on a phone and makes the sticky header
-             needlessly tall, so it only appears from sm up. -->
-        <span class="hidden text-[11px] tracking-wide text-plum-500 uppercase sm:block"
-          >{doctor.title}</span
-        >
+      <span class="font-display text-[16px] tracking-[-0.02em] text-plum-900 md:whitespace-nowrap">
+        {doctor.name}
       </span>
     </a>
 
-    <nav class="hidden items-center gap-7 lg:flex" aria-label="Primary">
+    <nav class="hidden items-center gap-[26px] md:flex" aria-label="Primary">
       {
         nav.map((item) => (
           <a
             href={item.href}
             data-navlink
-            class="relative text-sm text-plum-700 transition after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-rose-500 after:transition-transform after:duration-200 hover:text-rose-600 aria-[current]:text-rose-600 aria-[current]:after:scale-x-100"
+            class="relative text-[13.5px] text-plum-700 transition after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-rose-500 after:transition-transform hover:text-rose-600 aria-[current]:text-rose-600 aria-[current]:after:scale-x-100"
           >
             {item.label}
           </a>
         ))
       }
+      <a
+        href="#book"
+        class="rounded-full bg-plum-900 px-5 py-2.5 text-[13.5px] font-medium text-cream-50 transition hover:bg-plum-700"
+      >
+        Book
+      </a>
     </nav>
 
-    <a
-      href={contact.bookingUrl}
-      class="hidden items-center gap-2 rounded-full bg-plum-900 px-5 py-2.5 text-sm font-medium text-cream-50 shadow-soft transition hover:bg-plum-700 lg:inline-flex"
-    >
-      Book an appointment
-      <Icon name="arrow" class="h-4 w-4" />
-    </a>
-
-    <!-- Phone / tablet menu trigger. 44px target, the minimum that is
-         comfortable to hit with a thumb. -->
+    <!-- Phone menu trigger. 36px circle, 44px hit area via padding. -->
     <button
       type="button"
       id="menu-toggle"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="Open menu"
-      class="-mr-2 grid h-11 w-11 shrink-0 place-items-center rounded-full text-plum-900 transition hover:bg-plum-900/5 lg:hidden"
+      class="-m-1 grid h-11 w-11 shrink-0 place-items-center rounded-full text-plum-700 md:hidden"
     >
-      <svg
-        viewBox="0 0 24 24"
-        class="h-5 w-5"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        aria-hidden="true"
+      <span
+        class="grid h-9 w-9 place-items-center rounded-full border border-plum-900/[0.14]"
       >
-        <path class="menu-open-icon" d="M4 7h16M4 12h16M4 17h16" />
-        <path class="menu-close-icon hidden" d="M6 6l12 12M18 6L6 18" />
-      </svg>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          class="h-4 w-4"
+          aria-hidden="true"
+        >
+          <path class="menu-open-icon" d="M4 7h16M4 12h16M4 17h16"></path>
+          <path class="menu-close-icon hidden" d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </span>
     </button>
   </div>
 
-  <!-- Collapsible panel. Hidden from assistive tech and keyboard order
-       while closed, rather than merely painted off-screen. -->
-  <div id="mobile-menu" hidden class="border-t border-cream-200 bg-cream-50 lg:hidden">
-    <nav class="mx-auto max-w-6xl px-5 py-3" aria-label="Mobile">
-      <ul class="divide-y divide-cream-200">
+  <!-- Collapsible panel. `hidden` keeps it out of the keyboard and
+       screen-reader order while closed. -->
+  <div id="mobile-menu" hidden class="border-t border-plum-900/[0.07] md:hidden">
+    <nav class="px-[18px] py-2" aria-label="Mobile">
+      <ul class="divide-y divide-plum-900/[0.07]">
         {
           nav.map((item) => (
             <li>
@@ -106,12 +101,10 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
         }
       </ul>
       <a
-        href={contact.bookingUrl}
-        data-menu-close
-        class="mt-4 mb-2 flex items-center justify-center gap-2 rounded-full bg-plum-900 px-5 py-3.5 text-sm font-medium text-cream-50"
+        href="#book"
+        class="mt-3 mb-3 flex items-center justify-center rounded-full bg-plum-900 px-5 py-3.5 text-[14px] font-medium text-cream-50"
       >
         Book an appointment
-        <Icon name="arrow" class="h-4 w-4" />
       </a>
     </nav>
   </div>
@@ -123,9 +116,8 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
 
     A section counts as "current" once its top passes under the sticky
     header and before it leaves the upper part of the viewport. When two
-    qualify at once — a short section fully on screen above a long one —
-    the earliest in document order wins, which is what reading position
-    actually feels like.
+    qualify at once the earliest in document order wins, which matches
+    reading position.
   */
   const links = [
     ...document.querySelectorAll<HTMLAnchorElement>(
@@ -156,8 +148,8 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
     };
 
     const update = () => {
-      // Bottom of the page: the last section can never reach the top of
-      // the viewport, so pin it explicitly.
+      // A final short section can never reach the top of the viewport,
+      // so pin the last link at the bottom of the page.
       const atBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
       if (atBottom) {
@@ -176,8 +168,6 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
         }
         update();
       },
-      // Top inset clears the sticky header; the bottom inset means a
-      // section only becomes current once it reaches the upper third.
       { rootMargin: '-72px 0px -66% 0px', threshold: 0 }
     );
 
@@ -186,9 +176,7 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
     update();
   }
 
-  /* ---------------------------------------------------------------
-     Collapsible mobile menu
-     --------------------------------------------------------------- */
+  /* --------------------------- mobile menu --------------------------- */
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
 
@@ -228,10 +216,9 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
       }
     });
 
-    // Leaving the breakpoint with the panel open would otherwise strand it
+    // Crossing to the desktop breakpoint would otherwise strand the panel
     // open behind the desktop nav.
-    const desktop = window.matchMedia('(min-width: 1024px)');
-    desktop.addEventListener('change', (e) => {
+    window.matchMedia('(min-width: 760px)').addEventListener('change', (e) => {
       if (e.matches) setMenu(false);
     });
   }

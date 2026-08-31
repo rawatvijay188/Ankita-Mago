@@ -1,0 +1,55 @@
+---
+import { doctor, contact } from '../data/site';
+import { splitTag } from '../utils/placeholder';
+import Icon from './Icon.astro';
+
+// The follower count is the strongest number she has and the only one
+// publicly verifiable today. The other two need her input.
+const years = splitTag(doctor.yearsExperience);
+const babies = splitTag(doctor.babiesDelivered);
+const tele = splitTag(contact.teleconsult);
+
+// 1px gaps come from the container background showing through the cells.
+const cell = 'bg-cream-50 px-[18px] py-5';
+---
+
+<div
+  class="grid grid-cols-2 gap-px border-y border-plum-900/10 bg-plum-900/10 md:grid-cols-4"
+>
+  <div class={cell}>
+    <p class="font-display text-[30px] tracking-[-0.03em] text-plum-900">
+      {doctor.instagramFollowers}
+    </p>
+    <p class="mt-1 text-[11px] tracking-[0.1em] text-plum-400 uppercase">
+      follow on Instagram
+    </p>
+  </div>
+
+  <div class={cell}>
+    <p class="font-display text-[30px] tracking-[-0.03em] text-plum-900">
+      {years.value}<span class="text-[19px] text-plum-400">yrs</span>
+    </p>
+    <p class="mt-1 text-[11px] tracking-[0.1em] text-plum-400 uppercase">
+      in practice{' '}
+      {years.note && <span class="ph-mark text-[11px] tracking-normal normal-case">[{years.note}]</span>}
+    </p>
+  </div>
+
+  <div class={cell}>
+    <p class="font-display text-[30px] tracking-[-0.03em] text-plum-500/35">—</p>
+    <p class="mt-1 text-[11px] tracking-[0.1em] text-plum-400 uppercase">
+      babies delivered{' '}
+      {babies.note && <span class="ph-mark text-[11px] tracking-normal normal-case">[{babies.note}]</span>}
+    </p>
+  </div>
+
+  <!-- Her audience is nationwide, so teleconsulting belongs in the headline
+       numbers rather than buried in the Visit section. -->
+  <div class="bg-sage-100 px-[18px] py-5">
+    <span class="block text-sage-600"><Icon name="chat" class="h-[22px] w-[22px]" /></span>
+    <p class="mt-2 text-[11px] tracking-[0.1em] text-sage-600 uppercase">
+      online consults{' '}
+      {tele.note && <span class="ph-mark text-[11px] tracking-normal normal-case">[{tele.note}]</span>}
+    </p>
+  </div>
+</div>

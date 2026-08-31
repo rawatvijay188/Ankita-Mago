@@ -1,40 +1,41 @@
 ---
 import { testimonials } from '../data/site';
-import Icon from './Icon.astro';
 ---
 
-<section id="testimonials" class="bg-plum-900 py-14 text-cream-50 sm:py-20 lg:py-28">
-  <div class="mx-auto max-w-6xl px-5 lg:px-8">
-    <div class="max-w-2xl">
-      <p class="text-xs font-medium tracking-[0.2em] text-rose-200 uppercase">
-        In patients’ words
-      </p>
-      <h2 class="mt-4 text-[1.6rem] leading-tight sm:text-4xl">
-        The part that does not show up on a degree
-      </h2>
-    </div>
-
-    <div class="mt-12 grid gap-5 md:grid-cols-3">
-      {
-        testimonials.map((t) => (
-          <figure class="flex flex-col rounded-2xl bg-white/[0.06] p-6 ring-1 ring-white/10">
-            <Icon name="quote" class="h-6 w-6 text-rose-400" />
-            <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-cream-100">
-              <span class="ph-mark text-plum-900">{t.quote}</span>
-            </blockquote>
-            <figcaption class="mt-5 border-t border-white/10 pt-4 text-sm">
-              <span class="text-cream-50">{t.author}</span>
-              <span class="mt-0.5 block text-xs text-cream-200/60">{t.context}</span>
-            </figcaption>
-          </figure>
-        ))
-      }
-    </div>
-
-    <p class="mt-8 text-xs leading-relaxed text-cream-200/60">
-      Note for review: patient testimonials must be genuine and consented before
-      publication, and some medical councils restrict how they may be used in
-      advertising. Confirm the clinic’s policy before this section goes live.
+<section id="testimonials" class="bg-plum-900 pt-11 pb-[46px] text-cream-50">
+  <div class="px-[18px] md:px-10">
+    <p class="text-[10.5px] tracking-[0.18em] text-rose-400 uppercase">
+      In patients’ words
     </p>
+    <h2 class="opsz-title mt-3 text-[30px] leading-[1.08] text-cream-50 md:text-[40px]">
+      The part that does not show up on a degree
+    </h2>
   </div>
+
+  <div
+    class="rail mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-[18px] pb-1.5 md:flex-wrap md:overflow-visible md:px-10"
+  >
+    {
+      testimonials.map((t) => (
+        <figure class="flex shrink-0 basis-[288px] snap-start flex-col justify-between gap-[22px] rounded-[14px] bg-cream-100/[0.07] p-[22px] ring-1 ring-cream-100/[0.14] md:shrink md:basis-[300px] md:grow">
+          <blockquote class="font-display text-[20px] leading-[1.38] tracking-[-0.02em] text-cream-100">
+            {t.quote}
+          </blockquote>
+          <figcaption class="text-[11.5px] tracking-[0.06em] text-cream-100/55 uppercase">
+            [Patient initials] ·{' '}
+            <span class="ph-mark text-cream-50 normal-case tracking-normal">
+              {t.context}
+            </span>
+          </figcaption>
+        </figure>
+      ))
+    }
+  </div>
+
+  <p
+    class="mt-4 px-[18px] font-mono text-[10px] leading-[1.7] tracking-[0.05em] text-rose-400/80 uppercase md:px-10"
+  >
+    All placeholders. Real, consented quotes only — check her council’s advertising
+    rules first.
+  </p>
 </section>

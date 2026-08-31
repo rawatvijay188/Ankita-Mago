@@ -2,27 +2,36 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Services from '../components/Services.astro';
+import Stats from '../components/Stats.astro';
 import Answers from '../components/Answers.astro';
-import Credentials from '../components/Credentials.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
 import Testimonials from '../components/Testimonials.astro';
 import Visit from '../components/Visit.astro';
+import Book from '../components/Book.astro';
 import Faq from '../components/Faq.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
+
+/*
+  Order is deliberate. Answers comes before Care because most visitors
+  arrive from her Instagram bio link already knowing who she is — they came
+  for an answer, not a services list. Credentials now live collapsed inside
+  About rather than as a section of their own.
+*/
 ---
 
 <Base>
   <Nav />
   <main id="main">
     <Hero />
-    <About />
-    <Services />
+    <Stats />
     <Answers />
-    <Credentials />
+    <Services />
+    <About />
     <Testimonials />
     <Visit />
+    <Book />
     <Faq />
   </main>
   <Footer />

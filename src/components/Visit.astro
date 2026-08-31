@@ -3,183 +3,64 @@ import { contact } from '../data/site';
 import Icon from './Icon.astro';
 ---
 
-<section id="visit" class="mx-auto max-w-6xl px-5 py-14 sm:py-20 lg:px-8 lg:py-28">
-  <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
-    <div>
-      <p class="text-xs font-medium tracking-[0.2em] text-rose-500 uppercase">Visit</p>
-      <h2 class="mt-4 text-[1.6rem] leading-tight text-plum-900 sm:text-4xl">
-        Clinic hours & location
-      </h2>
+<section id="visit" class="px-[18px] pt-11 pb-10 md:px-10">
+  <p class="text-[10.5px] tracking-[0.18em] text-rose-600 uppercase">Visit</p>
+  <h2 class="opsz-title mt-3 text-[30px] leading-[1.08] text-plum-900 md:text-[40px]">
+    Clinic hours &amp; location
+  </h2>
 
-      <div class="mt-8 space-y-6">
-        <div class="flex gap-4">
-          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-rose-100 text-rose-500">
-            <Icon name="pin" />
-          </span>
-          <div>
-            <p class="font-medium text-plum-900"><span class="ph-mark">{contact.clinicName}</span></p>
-            {
-              contact.addressLines.map((line) => (
-                <p class="text-plum-500">
-                  <span class="ph-mark">{line}</span>
-                </p>
-              ))
-            }
-            <a
-              href={contact.mapsUrl}
-              target="_blank"
-              rel="noopener"
-              class="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-rose-600 underline underline-offset-4"
-            >
-              Open in Google Maps
-              <Icon name="arrow" class="h-3.5 w-3.5" />
-            </a>
-          </div>
-        </div>
+  <div class="mt-[22px] max-w-2xl border-t border-plum-900/[0.12]">
+    <div class="border-b border-plum-900/[0.09] py-4">
+      <p class="text-[10.5px] tracking-[0.12em] text-plum-400 uppercase">Clinic</p>
+      <p class="mt-[7px] text-[15.5px] text-plum-900">
+        <span class="ph-mark">{contact.clinicName}</span>
+      </p>
+      <p class="mt-1 text-[14px] text-plum-500">
+        <span class="ph-mark">{contact.addressLine}</span>
+      </p>
+      <a
+        href={contact.mapsUrl}
+        target="_blank"
+        rel="noopener"
+        class="mt-3 flex items-center justify-center gap-2 rounded-full border border-plum-900/[0.16] px-[18px] py-3 text-[14px] font-medium text-plum-900 transition hover:border-plum-900/40 md:inline-flex"
+      >
+        <Icon name="pin" class="h-[15px] w-[15px]" />
+        Directions in Maps
+      </a>
+    </div>
 
-        <div class="flex gap-4">
-          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-rose-100 text-rose-500">
-            <Icon name="clock" />
-          </span>
-          <dl class="w-full">
-            {
-              contact.hours.map((h) => (
-                <div class="flex flex-wrap justify-between gap-x-6 gap-y-0.5 border-b border-cream-200 py-2.5 last:border-0">
-                  <dt class="text-plum-900">{h.days}</dt>
-                  <dd class="text-plum-500">
-                    <span class="ph-mark">{h.time}</span>
-                  </dd>
-                </div>
-              ))
-            }
-          </dl>
-        </div>
-
-        <!-- Her audience is nationwide, so teleconsultation is a headline
-             feature here, not a footnote. -->
-        <div class="rounded-2xl bg-sage-100 p-5">
-          <div class="flex gap-4">
-            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-sage-500">
-              <Icon name="chat" />
-            </span>
-            <div>
-              <p class="font-medium text-plum-900">Consulting from outside Delhi</p>
-              <p class="mt-1 text-sm leading-relaxed text-plum-700">
-                <span class="ph-mark">{contact.teleconsult}</span>
-              </p>
+    <div class="border-b border-plum-900/[0.09] py-4">
+      <p class="text-[10.5px] tracking-[0.12em] text-plum-400 uppercase">Hours</p>
+      <dl class="mt-2 flex flex-col gap-2">
+        {
+          contact.hours.map((h) => (
+            <div class="flex justify-between gap-4">
+              <dt class="text-[14.5px] text-plum-900">{h.days}</dt>
+              <dd class="text-[14.5px] text-plum-500">
+                <span class="ph-mark">{h.time}</span>
+              </dd>
             </div>
-          </div>
-          <p class="mt-4 border-t border-white/60 pt-4 text-sm leading-relaxed text-plum-700">
-            <span class="ph-mark">{contact.emergencyNote}</span>
-          </p>
-        </div>
-      </div>
+          ))
+        }
+      </dl>
     </div>
 
-    <!-- Booking -->
-    <div id="book" class="scroll-mt-28">
-      <div class="rounded-3xl bg-white p-7 shadow-lift ring-1 ring-plum-900/5 sm:p-9">
-        <h3 class="text-xl text-plum-900 sm:text-2xl">Request an appointment</h3>
-        <p class="mt-2 text-sm text-plum-500">
-          Send a request and the clinic will confirm your slot by phone, usually the
-          same day.
-        </p>
-
-        <!--
-          TODO (before launch): this form has no backend yet. Point `action` at
-          Formspree / Web3Forms / a clinic booking system, or replace the whole
-          block with the embed from Practo. Never collect medical details here —
-          name, number and a preferred time are enough.
-        -->
-        <form class="mt-7 space-y-4" action="#" method="post">
-          <div class="grid gap-4 sm:grid-cols-2">
-            <label class="block">
-              <span class="text-sm text-plum-700">Your name</span>
-              <input
-                type="text"
-                name="name"
-                required
-                class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
-              />
-            </label>
-            <label class="block">
-              <span class="text-sm text-plum-700">Phone number</span>
-              <input
-                type="tel"
-                name="phone"
-                required
-                class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
-              />
-            </label>
-          </div>
-
-          <label class="block">
-            <span class="text-sm text-plum-700">Reason for visit</span>
-            <select
-              name="reason"
-              class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
-            >
-              <option>Fertility / trying to conceive</option>
-              <option>Pregnancy / antenatal check-up</option>
-              <option>PCOS or period problems</option>
-              <option>Surgery consultation</option>
-              <option>Routine check-up</option>
-              <option>Something else</option>
-            </select>
-          </label>
-
-          <label class="block">
-            <span class="text-sm text-plum-700">Consultation type</span>
-            <select
-              name="mode"
-              class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
-            >
-              <option>In clinic — North Delhi</option>
-              <option>Online video consultation</option>
-            </select>
-          </label>
-
-          <label class="block">
-            <span class="text-sm text-plum-700">Preferred day & time</span>
-            <input
-              type="text"
-              name="preferred"
-              placeholder="e.g. Tuesday evening"
-              class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition placeholder:text-plum-500/50 focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
-            />
-          </label>
-
-          <button
-            type="submit"
-            class="w-full rounded-full bg-rose-500 px-6 py-4 font-medium text-white shadow-soft transition hover:bg-rose-600 active:scale-[0.99]"
-          >
-            Request appointment
-          </button>
-
-          <p class="text-center text-xs text-plum-500">
-            Please do not share medical details in this form. In an emergency, call
-            <a href={contact.phoneHref} class="font-medium text-rose-600">the clinic</a>
-            directly.
-          </p>
-        </form>
-
-        <div class="mt-6 grid gap-3 border-t border-cream-200 pt-6 sm:grid-cols-2">
-          <a
-            href={contact.phoneHref}
-            class="inline-flex items-center justify-center gap-2 rounded-full border border-plum-900/15 px-5 py-3 text-sm font-medium text-plum-900 transition hover:border-plum-900/35"
-          >
-            <Icon name="phone" class="h-4 w-4" /> Call clinic
-          </a>
-          <a
-            href={contact.whatsappHref}
-            target="_blank"
-            rel="noopener"
-            class="inline-flex items-center justify-center gap-2 rounded-full border border-plum-900/15 px-5 py-3 text-sm font-medium text-plum-900 transition hover:border-plum-900/35"
-          >
-            <Icon name="chat" class="h-4 w-4" /> WhatsApp
-          </a>
-        </div>
-      </div>
+    <div class="border-b border-plum-900/[0.09] py-4">
+      <p class="text-[10.5px] tracking-[0.12em] text-plum-400 uppercase">Emergency</p>
+      <p class="mt-[7px] text-[14px] leading-[1.6] text-plum-500">
+        <span class="ph-mark">{contact.emergencyNote}</span>
+      </p>
     </div>
+  </div>
+
+  <div class="mt-[22px] max-w-2xl rounded-[14px] bg-sage-100 p-[22px]">
+    <div class="flex items-center gap-3">
+      <span class="text-sage-600"><Icon name="chat" class="h-[21px] w-[21px]" /></span>
+      <h3 class="text-[19px] tracking-[-0.02em] text-plum-900">Not in Delhi?</h3>
+    </div>
+    <p class="mt-3 text-[14.5px] leading-[1.65] text-plum-700">
+      <span class="ph-mark">{contact.teleconsult}</span> — anything needing an
+      examination, scan or procedure is seen in clinic.
+    </p>
   </div>
 </section>

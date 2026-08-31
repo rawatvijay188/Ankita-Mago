@@ -1,63 +1,80 @@
 ---
-import { services, contact } from '../data/site';
+import { services } from '../data/site';
 import Icon from './Icon.astro';
+
+/*
+  Six equal cards was most of a screen and read as filler. The specialty
+  gets a full-width card; everything else collapses, so the section states
+  what she does in one screen and expands only if you care.
+*/
+const featured = services.find((s) => s.featured)!;
+const rest = services.filter((s) => !s.featured);
 ---
 
-<section id="services" class="bg-cream-100 py-14 sm:py-20 lg:py-28">
-  <div class="mx-auto max-w-6xl px-5 lg:px-8">
-    <div class="max-w-2xl">
-      <p class="text-xs font-medium tracking-[0.2em] text-rose-500 uppercase">Services</p>
-      <h2 class="mt-4 text-[1.6rem] leading-tight text-plum-900 sm:text-4xl">
-        Fertility first — and everything after
-      </h2>
-      <p class="mt-4 text-base text-plum-700 sm:text-lg">
-        Conception, pregnancy, surgery and long-term gynaecological care, with the
-        same doctor through all of it.
+<section
+  id="services"
+  class="border-t border-plum-900/[0.07] bg-cream-100 px-[18px] pt-11 pb-12 md:px-10"
+>
+  <p class="text-[10.5px] tracking-[0.18em] text-rose-600 uppercase">Care</p>
+  <h2 class="opsz-title mt-3 text-[30px] leading-[1.08] text-plum-900 md:text-[40px]">
+    Fertility first — and everything after
+  </h2>
+
+  <div class="mt-6 flex flex-col gap-3 md:grid md:grid-cols-2 md:items-start">
+    <div class="rounded-[14px] bg-plum-900 p-[22px] text-cream-100 md:col-span-2">
+      <div class="flex items-center justify-between gap-3.5">
+        <span
+          class="font-display text-[11.5px] tracking-[0.14em] text-rose-400 uppercase"
+        >
+          Specialty
+        </span>
+        <span class="text-rose-400"><Icon name={featured.icon} class="h-[22px] w-[22px]" /></span>
+      </div>
+      <h3 class="opsz-title mt-3.5 text-[28px] leading-[1.1] text-cream-50">
+        {featured.title}
+      </h3>
+      <p class="mt-3 max-w-2xl text-[15px] leading-[1.65] text-cream-100/70">
+        {featured.blurb}
       </p>
+      <ul class="mt-[18px] flex flex-wrap gap-[7px]">
+        {
+          featured.points.map((p) => (
+            <li class="rounded-full border border-cream-100/20 px-3.5 py-[7px] text-[12.5px] text-cream-100/90">
+              {p.includes('[') ? <span class="ph-mark text-cream-50">{p}</span> : p}
+            </li>
+          ))
+        }
+      </ul>
     </div>
 
-    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        services.map((s) => (
-          <article
-            class:list={[
-              'group flex flex-col rounded-2xl p-6 shadow-soft transition hover:shadow-lift',
-              s.featured
-                ? 'bg-white ring-2 ring-rose-400'
-                : 'bg-white ring-1 ring-plum-900/[0.04]',
-            ]}
-          >
-            <div class="flex items-start justify-between gap-3">
-              <span class="grid h-11 w-11 place-items-center rounded-xl bg-rose-100 text-rose-500 transition group-hover:bg-rose-500 group-hover:text-white">
-                <Icon name={s.icon} class="h-5.5 w-5.5" />
+    {
+      rest.map((s) => (
+        <details class="group rounded-[14px] bg-white p-[22px] ring-1 ring-plum-900/[0.07]">
+          <summary class="flex min-h-8 cursor-pointer list-none items-center justify-between gap-4">
+            <span class="flex items-center gap-3">
+              <span class="text-rose-500">
+                <Icon name={s.icon} class="h-[21px] w-[21px]" />
               </span>
-              {s.featured && (
-                <span class="rounded-full bg-rose-100 px-3 py-1 text-[11px] font-medium tracking-wide text-rose-600 uppercase">
-                  Specialty
-                </span>
-              )}
-            </div>
-            <h3 class="mt-5 text-lg text-plum-900 sm:text-xl">{s.title}</h3>
-            <p class="mt-3 text-sm leading-relaxed text-plum-500">{s.blurb}</p>
-            <ul class="mt-5 space-y-2 border-t border-cream-200 pt-5">
-              {s.points.map((p) => (
-                <li class="flex items-start gap-2.5 text-sm text-plum-700">
-                  <Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-sage-500" />
-                  <span>{p}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))
-      }
-    </div>
-
-    <p class="mt-10 text-sm text-plum-500">
-      Not sure which applies to you?
-      <a href={contact.bookingUrl} class="font-medium text-rose-600 underline underline-offset-4">
-        Book a consultation
-      </a>
-      and we will work it out together.
-    </p>
+              <span class="font-display text-[19px] leading-[1.2] tracking-[-0.02em] text-plum-900">
+                {s.title}
+              </span>
+            </span>
+            <span class="shrink-0 text-plum-400 transition group-open:rotate-180">
+              <Icon name="chevron" class="h-[15px] w-[15px]" />
+            </span>
+          </summary>
+          <p class="mt-3.5 text-[14.5px] leading-[1.65] text-plum-500">
+            {s.blurb.includes('[') ? <span class="ph-mark">{s.blurb}</span> : s.blurb}
+          </p>
+          <ul class="mt-3.5 flex flex-wrap gap-[7px]">
+            {s.points.map((p) => (
+              <li class="rounded-full border border-plum-900/[0.12] px-3.5 py-[7px] text-[12.5px] text-plum-700">
+                {p.includes('[') ? <span class="ph-mark">{p}</span> : p}
+              </li>
+            ))}
+          </ul>
+        </details>
+      ))
+    }
   </div>
 </section>

@@ -1,66 +1,85 @@
 ---
-import { answers, social, doctor } from '../data/site';
+import { answers, doctor, social } from '../data/site';
 import Icon from './Icon.astro';
 
 /*
   Why this section exists — worth saying out loud in the pitch:
 
-  Instagram is invisible to Google. Every explainer she has ever posted is
-  unsearchable, and disappears down the feed within a day. The same content
-  restated here is permanent, indexable, and ranks for exactly the questions
-  women type at 2am. It is the highest-leverage part of the site, and it
-  costs her nothing new to make — she already writes it.
+  Instagram is invisible to Google. Every explainer she has posted is
+  unsearchable and gone down the feed within a day. The same content here is
+  permanent, indexable, and ranks for exactly the questions women type at
+  2am. Highest-leverage part of the site, and it costs her nothing new to
+  make — she already writes it.
 
-  Each of these should eventually become its own page at /answers/<slug>,
-  with the post embedded and a booking CTA at the end. Cards for now.
+  A swipeable rail rather than a grid: six cards as a grid is most of a
+  screen, as a rail it is one gesture.
 */
 ---
 
-<section id="answers" class="mx-auto max-w-6xl px-5 py-14 sm:py-20 lg:px-8 lg:py-28">
-  <div class="flex flex-wrap items-end justify-between gap-6">
-    <div class="max-w-2xl">
-      <p class="text-xs font-medium tracking-[0.2em] text-rose-500 uppercase">Answers</p>
-      <h2 class="mt-4 text-[1.6rem] leading-tight text-plum-900 sm:text-4xl">
-        The questions she gets asked most
-      </h2>
-      <p class="mt-4 text-base text-plum-700 sm:text-lg">
-        The same explainers <span class="ph-mark">{doctor.instagramFollowers}</span> people
-        follow her for — written down, so you can find them again.
-      </p>
-    </div>
-    <a
-      href={social.instagram}
-      target="_blank"
-      rel="noopener"
-      class="inline-flex items-center gap-2 rounded-full border border-plum-900/15 px-5 py-2.5 text-sm font-medium text-plum-900 transition hover:border-plum-900/35"
-    >
-      Follow on Instagram
-      <Icon name="arrow" class="h-4 w-4" />
-    </a>
+<section id="answers" class="pt-11 pb-10">
+  <div class="px-[18px] md:px-10">
+    <p class="text-[10.5px] tracking-[0.18em] text-rose-600 uppercase">Answers</p>
+    <h2 class="opsz-title mt-3 text-[30px] leading-[1.08] text-plum-900 md:text-[40px]">
+      The questions she gets asked most
+    </h2>
+    <p class="mt-3 max-w-xl text-[15px] leading-[1.62] text-plum-500">
+      The same explainers {doctor.instagramFollowers} people follow her for — written
+      down, so you can find them again.
+    </p>
   </div>
 
-  <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <div
+    class="rail mt-[22px] flex snap-x snap-mandatory gap-3 overflow-x-auto px-[18px] pb-1.5 md:flex-wrap md:overflow-visible md:px-10"
+  >
     {
-      answers.map((a) => (
+      answers.map((q, i) => (
         <a
           href="#"
-          class="group flex flex-col justify-between rounded-2xl border border-cream-200 bg-white p-6 shadow-soft transition hover:shadow-lift"
+          class:list={[
+            'flex h-[290px] shrink-0 basis-[232px] snap-start flex-col justify-between rounded-[14px] p-5 md:h-auto md:min-h-[210px] md:shrink md:basis-[300px] md:grow',
+            i === 0
+              ? 'bg-plum-900 text-cream-100'
+              : 'bg-cream-100 text-plum-900 ring-1 ring-plum-900/[0.07]',
+          ]}
         >
-          <h3 class="text-lg leading-snug text-plum-900">{a.q}</h3>
-          <p class="mt-3 text-sm leading-relaxed text-plum-500">
-            <span class="ph-mark">{a.teaser}</span>
-          </p>
-          <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-rose-600">
-            Read
-            <Icon name="arrow" class="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
+          <span
+            class:list={[
+              'font-mono text-[10.5px] tracking-[0.1em]',
+              i === 0 ? 'text-rose-400' : 'text-plum-400',
+            ]}
+          >
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <span>
+            <span
+              class:list={[
+                'block font-display text-[24px] leading-[1.18] tracking-[-0.025em]',
+                i === 0 ? 'text-cream-50' : 'text-plum-900',
+              ]}
+            >
+              {q}
+            </span>
+            <span
+              class:list={[
+                'mt-3.5 inline-flex items-center gap-[7px] text-[13px] font-medium',
+                i === 0 ? 'text-rose-400' : 'text-rose-600',
+              ]}
+            >
+              Read
+              <Icon name="arrow" class="h-[13px] w-[13px]" />
+            </span>
           </span>
         </a>
       ))
     }
   </div>
 
-  <p class="mt-8 text-sm text-plum-500">
-    Note for review: these link nowhere yet. Each becomes its own page once
-    Dr. Mago approves the wording — her words, not ours.
+  <p class="mt-3.5 px-[18px] text-[12px] text-plum-400 md:px-10">
+    <span class="md:hidden">Swipe · </span>
+    <span class="ph-mark">wording drafted from her posts, pending her approval</span>
+    {' · '}
+    <a href={social.instagram} target="_blank" rel="noopener" class="text-rose-600">
+      Follow on Instagram
+    </a>
   </p>
 </section>

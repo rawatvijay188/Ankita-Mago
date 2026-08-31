@@ -1,169 +1,92 @@
 ---
 import { existsSync } from 'node:fs';
-import { doctor, contact, social } from '../data/site';
-import { splitTag, isUnknown } from '../utils/placeholder';
+import { doctor, social } from '../data/site';
 import Icon from './Icon.astro';
 
-// Three states, best first:
-//   doctor.jpg  — a real 800x1000 headshot, shown full-bleed.
-//   avatar.jpg  — only the 150px Instagram DP. Shown small and circular
-//                 rather than stretched, so it reads as a deliberate
-//                 portrait treatment instead of a blurry hero image.
-//   neither     — labelled placeholder.
+// doctor.jpg — a real ~800×1000 headshot — fills the arch when present.
+// Otherwise the 150px Instagram picture sits in it as a circle, which reads
+// as a deliberate portrait treatment rather than a blurry stretched image.
 const hasPhoto = existsSync(new URL(`../../public${doctor.photo}`, import.meta.url));
 const hasAvatar = existsSync(new URL('../../public/images/avatar.jpg', import.meta.url));
-
-// Follower count is the strongest number she has and the only one that is
-// publicly verifiable today. The other two need her input — until then they
-// stay tagged and highlighted.
-// Split the number from its review tag so the tag can sit small underneath
-// instead of being typeset at 3xl and destroying the row.
-const stats = [
-  { ...splitTag(doctor.instagramFollowers), label: 'follow on Instagram' },
-  { ...splitTag(doctor.yearsExperience), label: 'years in practice' },
-  { ...splitTag(doctor.babiesDelivered), label: 'babies delivered' },
-];
-
-const phoneUnknown = isUnknown(contact.phone);
 ---
 
-<section id="top" class="relative overflow-hidden">
-  <!-- soft ambient wash -->
+<section id="top" class="relative overflow-hidden px-[18px] pb-[34px] md:px-10">
   <div
-    class="pointer-events-none absolute inset-x-0 -top-40 h-[36rem] bg-[radial-gradient(60%_60%_at_70%_35%,var(--color-rose-100),transparent_70%)]"
     aria-hidden="true"
+    class="pointer-events-none absolute -top-[180px] -right-20 -left-20 h-[520px] bg-[radial-gradient(50%_55%_at_60%_45%,var(--color-rose-100),transparent_72%)]"
   >
   </div>
 
   <div
-    class="relative mx-auto grid max-w-6xl gap-12 px-5 pt-10 pb-12 sm:pt-14 sm:pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:px-8 lg:pt-24 lg:pb-24"
+    class="relative pt-7 md:grid md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-14"
   >
-    <div class="reveal">
-      <!-- Most visitors arrive from her bio link. Say so immediately —
-           it confirms they are in the right place. -->
-      <a
-        href={social.instagram}
-        target="_blank"
-        rel="noopener"
-        class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white/70 px-3.5 py-1.5 text-xs font-medium tracking-wide text-rose-600 transition hover:border-rose-400"
-      >
-        <span class="h-1.5 w-1.5 rounded-full bg-sage-500"></span>
-        {social.instagramHandle} · {doctor.instagramFollowers} followers
-      </a>
-
-      <h1 class="mt-5 text-[2rem] leading-[1.08] text-plum-900 sm:text-5xl lg:text-[3.5rem]">
-        {doctor.headline}
-      </h1>
-
-      <p class="mt-5 max-w-lg text-base leading-relaxed text-plum-700 sm:text-lg">
-        {doctor.tagline}
-      </p>
-
-      <p class="mt-4 max-w-lg text-sm text-plum-500">
-        {doctor.name} · <span class="ph-mark">{doctor.qualifications}</span> ·
-        <span class="ph-mark">{contact.addressLines[1]}</span>
-      </p>
-
-      <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <a
-          href={contact.bookingUrl}
-          class="inline-flex items-center justify-center gap-2 rounded-full bg-rose-500 px-7 py-4 text-base font-medium text-white shadow-lift transition hover:bg-rose-600 active:scale-[0.99]"
-        >
-          Book an appointment
-          <Icon name="arrow" class="h-4 w-4" />
-        </a>
-        <a
-          href={contact.phoneHref}
-          class="inline-flex items-center justify-center gap-2 rounded-full border border-plum-900/15 bg-white px-7 py-4 text-base font-medium text-plum-900 transition hover:border-plum-900/35"
-        >
-          <Icon name="phone" class="h-4 w-4" />
-          {phoneUnknown ? 'Call the clinic' : <span class="ph-mark">{contact.phone}</span>}
-        </a>
-      </div>
-
-      <dl class="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-cream-200 pt-8">
-        {
-          stats.map((s) => (
-            <div>
-              <dt class="sr-only">{s.label}</dt>
-              <dd>
-                <span class="block font-display text-2xl text-plum-900 sm:text-3xl">
-                  {s.value ? <>{s.value}+</> : <span class="text-plum-500/40">—</span>}
-                </span>
-                <span class="mt-1 block text-sm text-plum-500">{s.label}</span>
-                {s.note && (
-                  <span class="ph-mark mt-1.5 block text-[11px] leading-snug text-plum-500">
-                    {s.note}
-                  </span>
-                )}
-              </dd>
-            </div>
-          ))
-        }
-      </dl>
+    <!-- Arch-topped portrait. Reads as considered rather than as a
+         rectangular stock crop. -->
+    <div
+      class="relative grid h-[300px] place-items-center overflow-hidden rounded-t-[170px] rounded-b-xl bg-[linear-gradient(168deg,var(--color-rose-100),var(--color-sage-100))] p-[26px] text-center md:h-[460px] md:rounded-t-[240px]"
+    >
+      {
+        hasPhoto ? (
+          <img
+            src={doctor.photo}
+            alt={`${doctor.name}, ${doctor.title}`}
+            width="800"
+            height="1000"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <div>
+            {hasAvatar && (
+              <img
+                src="/images/avatar.jpg"
+                alt={`${doctor.name}, ${doctor.title}`}
+                width="150"
+                height="150"
+                class="mx-auto block h-[132px] w-[132px] rounded-full object-cover shadow-[0_20px_36px_-20px_rgba(46,28,37,0.45),0_0_0_5px_rgba(255,255,255,0.6)]"
+              />
+            )}
+            <p class="mt-4 font-mono text-[9.5px] leading-relaxed tracking-[0.06em] text-plum-500/60 uppercase">
+              professional portrait<br />→ public/images/doctor.jpg
+            </p>
+          </div>
+        )
+      }
     </div>
 
-    <!-- Portrait. Replace the placeholder block with a real photograph. -->
-    <div class="reveal relative mx-auto w-full max-w-md lg:max-w-none">
-      <div
-        class="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-cream-100 shadow-lift ring-1 ring-plum-900/5"
+    <div>
+      <p
+        class="mt-[26px] text-[10.5px] tracking-[0.16em] text-rose-600 uppercase md:mt-0"
       >
-        {
-          hasPhoto ? (
-            <img
-              src={doctor.photo}
-              alt={`${doctor.name}, ${doctor.title}`}
-              width="800"
-              height="1000"
-              class="h-full w-full object-cover"
-            />
-          ) : hasAvatar ? (
-            <div class="grid h-full w-full place-items-center bg-[linear-gradient(160deg,var(--color-rose-100),var(--color-sage-100))] p-8 text-center">
-              <div>
-                <img
-                  src="/images/avatar.jpg"
-                  alt={`${doctor.name}, ${doctor.title}`}
-                  width="150"
-                  height="150"
-                  class="mx-auto h-40 w-40 rounded-full object-cover shadow-lift ring-4 ring-white/70 sm:h-48 sm:w-48"
-                />
-                <p class="mt-6 font-display text-2xl text-plum-900">{doctor.name}</p>
-                <p class="mt-1 text-sm text-plum-700">{doctor.title}</p>
-                <p class="mt-4 text-xs text-plum-500">
-                  Instagram profile picture, 150×150 — replace with a professional
-                  headshot at <code class="rounded bg-white/60 px-1">public/images/doctor.jpg</code>
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div class="grid h-full w-full place-items-center bg-[linear-gradient(160deg,var(--color-rose-100),var(--color-sage-100))] p-8 text-center">
-              <div>
-                <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-white/70 text-rose-500">
-                  <Icon name="heart" class="h-7 w-7" />
-                </div>
-                <p class="mt-4 font-display text-lg text-plum-700">Professional photograph</p>
-                <p class="mt-1 text-sm text-plum-500">
-                  Add to <code class="rounded bg-white/60 px-1">public/images/doctor.jpg</code>
-                </p>
-              </div>
-            </div>
-          )
-        }
-      </div>
+        {doctor.eyebrow}
+      </p>
 
-      <!-- floating reassurance card -->
-      <div
-        class="absolute -bottom-5 left-1/2 w-[85%] -translate-x-1/2 rounded-2xl bg-white p-4 shadow-lift ring-1 ring-plum-900/5"
+      <h1
+        class="opsz-display mt-3.5 text-[44px] leading-[0.98] tracking-[-0.04em] text-plum-900 md:text-[68px]"
       >
-        <div class="flex items-center gap-3">
-          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-sage-100 text-sage-500">
-            <Icon name="clock" class="h-4 w-4" />
-          </span>
-          <p class="text-sm leading-snug text-plum-700">
-            Not in Delhi? <span class="ph-mark">{contact.teleconsult}</span>
-          </p>
-        </div>
-      </div>
+        {doctor.headline}{' '}
+        <span class="font-light text-rose-600 italic">{doctor.headlineAccent}</span>
+      </h1>
+
+      <p class="mt-[18px] text-[16.5px] leading-[1.6] text-plum-700">
+        Fertility, pregnancy and gynaecological care in North Delhi — from the doctor
+        behind{' '}
+        <a
+          href={social.instagram}
+          target="_blank"
+          rel="noopener"
+          class="text-plum-900 shadow-[inset_0_-1px_0_var(--color-rose-400)]"
+        >
+          {social.instagramHandle}
+        </a>.
+      </p>
+
+      <a
+        href="#book"
+        class="mt-6 flex items-center justify-center gap-2.5 rounded-full bg-rose-500 px-6 py-[18px] text-[16px] font-medium text-white shadow-[0_18px_34px_-18px_rgba(166,60,85,0.6)] transition hover:bg-rose-600 md:inline-flex"
+      >
+        Book an appointment
+        <Icon name="arrow" class="h-[15px] w-[15px]" />
+      </a>
     </div>
   </div>
 </section>
