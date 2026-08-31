@@ -3,14 +3,14 @@ import { services, contact } from '../data/site';
 import Icon from './Icon.astro';
 ---
 
-<section id="services" class="bg-cream-100 py-20 lg:py-28">
+<section id="services" class="bg-cream-100 py-14 sm:py-20 lg:py-28">
   <div class="mx-auto max-w-6xl px-5 lg:px-8">
     <div class="max-w-2xl">
       <p class="text-xs font-medium tracking-[0.2em] text-rose-500 uppercase">Services</p>
-      <h2 class="mt-4 text-3xl leading-tight text-plum-900 sm:text-4xl">
+      <h2 class="mt-4 text-[1.6rem] leading-tight text-plum-900 sm:text-4xl">
         Fertility first — and everything after
       </h2>
-      <p class="mt-4 text-lg text-plum-700">
+      <p class="mt-4 text-base text-plum-700 sm:text-lg">
         Conception, pregnancy, surgery and long-term gynaecological care, with the
         same doctor through all of it.
       </p>
@@ -37,7 +37,7 @@ import Icon from './Icon.astro';
                 </span>
               )}
             </div>
-            <h3 class="mt-5 text-xl text-plum-900">{s.title}</h3>
+            <h3 class="mt-5 text-lg text-plum-900 sm:text-xl">{s.title}</h3>
             <p class="mt-3 text-sm leading-relaxed text-plum-500">{s.blurb}</p>
             <ul class="mt-5 space-y-2 border-t border-cream-200 pt-5">
               {s.points.map((p) => (

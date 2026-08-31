@@ -55,11 +55,65 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
 
     <a
       href={contact.bookingUrl}
-      class="hidden items-center gap-2 rounded-full bg-plum-900 px-5 py-2.5 text-sm font-medium text-cream-50 shadow-soft transition hover:bg-plum-700 sm:inline-flex"
+      class="hidden items-center gap-2 rounded-full bg-plum-900 px-5 py-2.5 text-sm font-medium text-cream-50 shadow-soft transition hover:bg-plum-700 lg:inline-flex"
     >
       Book an appointment
       <Icon name="arrow" class="h-4 w-4" />
     </a>
+
+    <!-- Phone / tablet menu trigger. 44px target, the minimum that is
+         comfortable to hit with a thumb. -->
+    <button
+      type="button"
+      id="menu-toggle"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Open menu"
+      class="-mr-2 grid h-11 w-11 shrink-0 place-items-center rounded-full text-plum-900 transition hover:bg-plum-900/5 lg:hidden"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        class="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path class="menu-open-icon" d="M4 7h16M4 12h16M4 17h16" />
+        <path class="menu-close-icon hidden" d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Collapsible panel. Hidden from assistive tech and keyboard order
+       while closed, rather than merely painted off-screen. -->
+  <div id="mobile-menu" hidden class="border-t border-cream-200 bg-cream-50 lg:hidden">
+    <nav class="mx-auto max-w-6xl px-5 py-3" aria-label="Mobile">
+      <ul class="divide-y divide-cream-200">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                data-mobile-navlink
+                class="block py-3.5 text-[15px] text-plum-700 aria-[current]:font-medium aria-[current]:text-rose-600"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a
+        href={contact.bookingUrl}
+        data-menu-close
+        class="mt-4 mb-2 flex items-center justify-center gap-2 rounded-full bg-plum-900 px-5 py-3.5 text-sm font-medium text-cream-50"
+      >
+        Book an appointment
+        <Icon name="arrow" class="h-4 w-4" />
+      </a>
+    </nav>
   </div>
 </header>
 
@@ -73,23 +127,31 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
     the earliest in document order wins, which is what reading position
     actually feels like.
   */
-  const links = [...document.querySelectorAll<HTMLAnchorElement>('a[data-navlink]')];
+  const links = [
+    ...document.querySelectorAll<HTMLAnchorElement>(
+      'a[data-navlink], a[data-mobile-navlink]'
+    ),
+  ];
 
-  const sections = links
-    .map((link) => {
-      const id = link.getAttribute('href')?.slice(1);
-      const el = id ? document.getElementById(id) : null;
-      return el ? { link, el } : null;
+  // One section can be represented by two links — desktop and mobile —
+  // so each entry carries every link pointing at it.
+  const sections = [...new Set(links.map((l) => l.getAttribute('href')))]
+    .map((href) => {
+      const el = href ? document.getElementById(href.slice(1)) : null;
+      return el ? { el, links: links.filter((l) => l.getAttribute('href') === href) } : null;
     })
-    .filter((s): s is { link: HTMLAnchorElement; el: HTMLElement } => s !== null);
+    .filter((s): s is { el: HTMLElement; links: HTMLAnchorElement[] } => s !== null);
 
   if (sections.length) {
     const visible = new Set<string>();
 
-    const setCurrent = (target: HTMLAnchorElement | null) => {
-      for (const { link } of sections) {
-        if (link === target) link.setAttribute('aria-current', 'true');
-        else link.removeAttribute('aria-current');
+    const setCurrent = (target: HTMLElement | null) => {
+      for (const section of sections) {
+        const on = section.el === target;
+        for (const link of section.links) {
+          if (on) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        }
       }
     };
 
@@ -99,11 +161,11 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
       const atBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
       if (atBottom) {
-        setCurrent(sections[sections.length - 1].link);
+        setCurrent(sections[sections.length - 1].el);
         return;
       }
       const current = sections.find((s) => visible.has(s.el.id));
-      setCurrent(current ? current.link : null);
+      setCurrent(current ? current.el : null);
     };
 
     const observer = new IntersectionObserver(
@@ -122,5 +184,55 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
     for (const { el } of sections) observer.observe(el);
     window.addEventListener('scroll', update, { passive: true });
     update();
+  }
+
+  /* ---------------------------------------------------------------
+     Collapsible mobile menu
+     --------------------------------------------------------------- */
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  if (toggle && menu) {
+    const openIcon = toggle.querySelector('.menu-open-icon');
+    const closeIcon = toggle.querySelector('.menu-close-icon');
+
+    const setMenu = (open: boolean) => {
+      menu.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      openIcon?.classList.toggle('hidden', open);
+      closeIcon?.classList.toggle('hidden', !open);
+    };
+
+    toggle.addEventListener('click', () =>
+      setMenu(toggle.getAttribute('aria-expanded') !== 'true')
+    );
+
+    // Anchor links jump within the page, so the panel has to close itself
+    // or it covers the section the tap just navigated to.
+    for (const link of menu.querySelectorAll('a')) {
+      link.addEventListener('click', () => setMenu(false));
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        setMenu(false);
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as Node;
+      if (!menu.hidden && !menu.contains(target) && !toggle.contains(target)) {
+        setMenu(false);
+      }
+    });
+
+    // Leaving the breakpoint with the panel open would otherwise strand it
+    // open behind the desktop nav.
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    desktop.addEventListener('change', (e) => {
+      if (e.matches) setMenu(false);
+    });
   }
 </script>

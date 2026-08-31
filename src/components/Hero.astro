@@ -36,7 +36,7 @@ const phoneUnknown = isUnknown(contact.phone);
   </div>
 
   <div
-    class="relative mx-auto grid max-w-6xl gap-12 px-5 pt-14 pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:px-8 lg:pt-24 lg:pb-24"
+    class="relative mx-auto grid max-w-6xl gap-12 px-5 pt-10 pb-12 sm:pt-14 sm:pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:px-8 lg:pt-24 lg:pb-24"
   >
     <div class="reveal">
       <!-- Most visitors arrive from her bio link. Say so immediately —
@@ -51,11 +51,11 @@ const phoneUnknown = isUnknown(contact.phone);
         {social.instagramHandle} · {doctor.instagramFollowers} followers
       </a>
 
-      <h1 class="mt-5 text-[2.5rem] leading-[1.05] text-plum-900 sm:text-5xl lg:text-[3.5rem]">
+      <h1 class="mt-5 text-[2rem] leading-[1.08] text-plum-900 sm:text-5xl lg:text-[3.5rem]">
         {doctor.headline}
       </h1>
 
-      <p class="mt-5 max-w-lg text-lg leading-relaxed text-plum-700">
+      <p class="mt-5 max-w-lg text-base leading-relaxed text-plum-700 sm:text-lg">
         {doctor.tagline}
       </p>
 
@@ -87,7 +87,7 @@ const phoneUnknown = isUnknown(contact.phone);
             <div>
               <dt class="sr-only">{s.label}</dt>
               <dd>
-                <span class="block font-display text-3xl text-plum-900">
+                <span class="block font-display text-2xl text-plum-900 sm:text-3xl">
                   {s.value ? <>{s.value}+</> : <span class="text-plum-500/40">—</span>}
                 </span>
                 <span class="mt-1 block text-sm text-plum-500">{s.label}</span>
