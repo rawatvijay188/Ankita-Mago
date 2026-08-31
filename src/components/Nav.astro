@@ -31,7 +31,9 @@ const hasAvatar = existsSync(new URL(`../../public${avatar}`, import.meta.url));
       }
       <span class="leading-tight">
         <span class="block font-display text-base text-plum-900">{doctor.name}</span>
-        <span class="block text-[11px] tracking-wide text-plum-500 uppercase"
+        <!-- Wraps to two lines on a phone and makes the sticky header
+             needlessly tall, so it only appears from sm up. -->
+        <span class="hidden text-[11px] tracking-wide text-plum-500 uppercase sm:block"
           >{doctor.title}</span
         >
       </span>

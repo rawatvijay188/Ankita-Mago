@@ -7,6 +7,17 @@ interface Props {
   description?: string;
 }
 
+/*
+  DRAFT flag. While true the page is marked noindex/nofollow and carries a
+  visible review banner.
+
+  This matters: the page names a real doctor and lists credentials that are
+  sourced from directories rather than confirmed with her. It must not be
+  indexed, and nobody landing on it should mistake it for her official site.
+  Set to false only once the content is confirmed and she has approved it.
+*/
+const IS_DRAFT = true;
+
 const {
   title = `${doctor.name} — ${doctor.title}`,
   description = doctor.tagline,
@@ -41,9 +52,21 @@ const schema = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {IS_DRAFT && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={doctor.name} />
+    {/* Link previews — this is how the URL renders when shared to
+        WhatsApp or Instagram, which is how most people will receive it. */}
+    <meta property="og:image" content={new URL('/images/og.png', Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${doctor.name} — ${doctor.title}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/images/og.png', Astro.site)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -60,6 +83,14 @@ const schema = {
     >
       Skip to content
     </a>
+    {
+      IS_DRAFT && (
+        <div class="bg-plum-900 px-4 py-2 text-center text-xs text-cream-100">
+          Draft for review — highlighted details are unconfirmed and not yet
+          approved by Dr. Mago. Not her official website.
+        </div>
+      )
+    }
     <slot />
   </body>
 </html>
