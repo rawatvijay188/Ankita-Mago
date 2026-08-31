@@ -55,11 +55,21 @@ import Icon from './Icon.astro';
           </dl>
         </div>
 
-        <div class="flex gap-4 rounded-2xl bg-sage-100 p-5">
-          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-sage-500">
-            <Icon name="phone" />
-          </span>
-          <p class="text-sm leading-relaxed text-plum-700">
+        <!-- Her audience is nationwide, so teleconsultation is a headline
+             feature here, not a footnote. -->
+        <div class="rounded-2xl bg-sage-100 p-5">
+          <div class="flex gap-4">
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-sage-500">
+              <Icon name="chat" />
+            </span>
+            <div>
+              <p class="font-medium text-plum-900">Consulting from outside Delhi</p>
+              <p class="mt-1 text-sm leading-relaxed text-plum-700">
+                <span class="ph-mark">{contact.teleconsult}</span>
+              </p>
+            </div>
+          </div>
+          <p class="mt-4 border-t border-white/60 pt-4 text-sm leading-relaxed text-plum-700">
             <span class="ph-mark">{contact.emergencyNote}</span>
           </p>
         </div>
@@ -109,11 +119,23 @@ import Icon from './Icon.astro';
               name="reason"
               class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
             >
+              <option>Fertility / trying to conceive</option>
               <option>Pregnancy / antenatal check-up</option>
-              <option>Gynaecology consultation</option>
-              <option>Fertility consultation</option>
+              <option>PCOS or period problems</option>
+              <option>Surgery consultation</option>
               <option>Routine check-up</option>
               <option>Something else</option>
+            </select>
+          </label>
+
+          <label class="block">
+            <span class="text-sm text-plum-700">Consultation type</span>
+            <select
+              name="mode"
+              class="mt-1.5 w-full rounded-xl border border-cream-200 bg-cream-50 px-4 py-3 text-plum-900 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
+            >
+              <option>In clinic — North Delhi</option>
+              <option>Online video consultation</option>
             </select>
           </label>
 

@@ -8,20 +8,35 @@ import Icon from './Icon.astro';
     <div class="max-w-2xl">
       <p class="text-xs font-medium tracking-[0.2em] text-rose-500 uppercase">Services</p>
       <h2 class="mt-4 text-3xl leading-tight text-plum-900 sm:text-4xl">
-        Every stage, under one roof
+        Fertility first — and everything after
       </h2>
       <p class="mt-4 text-lg text-plum-700">
-        From a first period to menopause, and everything pregnancy brings in between.
+        Conception, pregnancy, surgery and long-term gynaecological care, with the
+        same doctor through all of it.
       </p>
     </div>
 
     <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
         services.map((s) => (
-          <article class="group flex flex-col rounded-2xl bg-white p-6 shadow-soft ring-1 ring-plum-900/[0.04] transition hover:shadow-lift">
-            <span class="grid h-11 w-11 place-items-center rounded-xl bg-rose-100 text-rose-500 transition group-hover:bg-rose-500 group-hover:text-white">
-              <Icon name={s.icon} class="h-5.5 w-5.5" />
-            </span>
+          <article
+            class:list={[
+              'group flex flex-col rounded-2xl p-6 shadow-soft transition hover:shadow-lift',
+              s.featured
+                ? 'bg-white ring-2 ring-rose-400'
+                : 'bg-white ring-1 ring-plum-900/[0.04]',
+            ]}
+          >
+            <div class="flex items-start justify-between gap-3">
+              <span class="grid h-11 w-11 place-items-center rounded-xl bg-rose-100 text-rose-500 transition group-hover:bg-rose-500 group-hover:text-white">
+                <Icon name={s.icon} class="h-5.5 w-5.5" />
+              </span>
+              {s.featured && (
+                <span class="rounded-full bg-rose-100 px-3 py-1 text-[11px] font-medium tracking-wide text-rose-600 uppercase">
+                  Specialty
+                </span>
+              )}
+            </div>
             <h3 class="mt-5 text-xl text-plum-900">{s.title}</h3>
             <p class="mt-3 text-sm leading-relaxed text-plum-500">{s.blurb}</p>
             <ul class="mt-5 space-y-2 border-t border-cream-200 pt-5">

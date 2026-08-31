@@ -68,3 +68,41 @@ src/
 
 Static output — drop `dist/` on Vercel, Netlify, or Cloudflare Pages. On Vercel:
 connect the repo, framework preset "Astro", no configuration needed.
+
+## Research notes (v2)
+
+Content was pre-filled from public sources — her Instagram (@doctor_ovary),
+her Lybrate profile, and search results around her Practo listing. **None of it
+is confirmed with her.** Directory listings are self-reported and often stale,
+and the sources contradict each other on several points:
+
+| Detail | Lybrate | Practo |
+| --- | --- | --- |
+| MBBS | 2011 | 2012 |
+| DNB | 2016 | 2017 |
+| Experience | 15 years | 14 years |
+| Clinic | Pitampura | Rohini |
+
+Tags used in `src/data/site.ts`: `[confirm]` sourced but unverified,
+`[CONFLICT]` sources disagree, `[TODO]` nothing found. Anything still tagged
+renders with a yellow highlight on the page.
+
+Also note: `drankitamagoclinic.com` appears in search results but did not
+resolve during research. Check whether she already has a live site before
+pitching.
+
+### Why the site is built this way
+
+She has ~228K Instagram followers. This is not a discovery site for a doctor
+nobody can find — it is a conversion funnel for an audience she already owns
+but cannot contact. Three decisions follow from that:
+
+1. **The hero speaks to someone arriving from her bio link**, not from Google.
+2. **Fertility/IVF leads the services**, because it is her stated specialty and
+   the highest-value patient.
+3. **The Answers section** restates the explainers she already posts. Instagram
+   is invisible to search; the same content here is permanent and indexable.
+   Each card should become its own page at `/answers/<slug>`.
+
+Teleconsultation is featured prominently — her audience is nationwide, her
+clinic is in one part of Delhi.

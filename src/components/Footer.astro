@@ -1,5 +1,5 @@
 ---
-import { doctor, contact, nav } from '../data/site';
+import { doctor, contact, nav, social } from '../data/site';
 
 const year = new Date().getFullYear();
 ---
@@ -15,6 +15,24 @@ const year = new Date().getFullYear();
         <p class="mt-4 max-w-sm text-sm leading-relaxed text-plum-500">
           {doctor.tagline}
         </p>
+        <div class="mt-5 flex gap-3">
+          <a
+            href={social.instagram}
+            target="_blank"
+            rel="noopener"
+            class="rounded-full border border-plum-900/15 px-4 py-2 text-sm text-plum-700 transition hover:border-plum-900/35"
+          >
+            Instagram
+          </a>
+          <a
+            href={social.threads}
+            target="_blank"
+            rel="noopener"
+            class="rounded-full border border-plum-900/15 px-4 py-2 text-sm text-plum-700 transition hover:border-plum-900/35"
+          >
+            Threads
+          </a>
+        </div>
       </div>
 
       <div>

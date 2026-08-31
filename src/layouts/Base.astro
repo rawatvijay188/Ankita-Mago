@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { doctor, contact } from '../data/site';
+import { doctor, contact, social } from '../data/site';
 
 interface Props {
   title?: string;
@@ -20,6 +20,9 @@ const schema = {
   name: doctor.name,
   medicalSpecialty: ['Obstetric', 'Gynecologic'],
   description: doctor.tagline,
+  // Links the site to the Instagram account Google already knows about,
+  // which helps the two rank as one entity.
+  sameAs: [social.instagram, social.threads],
   telephone: contact.phone,
   email: contact.email,
   address: {

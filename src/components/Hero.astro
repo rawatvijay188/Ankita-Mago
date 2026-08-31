@@ -1,11 +1,14 @@
 ---
-import { doctor, contact } from '../data/site';
+import { doctor, contact, social } from '../data/site';
 import Icon from './Icon.astro';
 
+// Follower count is the strongest number she has and the only one that is
+// publicly verifiable today. The other two need her input — until then they
+// stay tagged and highlighted.
 const stats = [
+  { value: doctor.instagramFollowers, label: 'follow on Instagram' },
   { value: doctor.yearsExperience, label: 'years in practice' },
   { value: doctor.babiesDelivered, label: 'babies delivered' },
-  { value: doctor.patientsCared, label: 'women cared for' },
 ];
 ---
 
@@ -21,12 +24,17 @@ const stats = [
     class="relative mx-auto grid max-w-6xl gap-12 px-5 pt-14 pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:px-8 lg:pt-24 lg:pb-24"
   >
     <div class="reveal">
-      <p
-        class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white/70 px-3.5 py-1.5 text-xs font-medium tracking-wide text-rose-600 uppercase"
+      <!-- Most visitors arrive from her bio link. Say so immediately —
+           it confirms they are in the right place. -->
+      <a
+        href={social.instagram}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white/70 px-3.5 py-1.5 text-xs font-medium tracking-wide text-rose-600 transition hover:border-rose-400"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-sage-500"></span>
-        Now accepting new patients
-      </p>
+        {social.instagramHandle} · {doctor.instagramFollowers} followers
+      </a>
 
       <h1 class="mt-5 text-[2.5rem] leading-[1.05] text-plum-900 sm:text-5xl lg:text-[3.5rem]">
         {doctor.headline}
@@ -106,8 +114,7 @@ const stats = [
             <Icon name="clock" class="h-4 w-4" />
           </span>
           <p class="text-sm leading-snug text-plum-700">
-            Unhurried consultations — <span class="ph-mark">[20–30 minutes]</span>, so
-            you can ask everything.
+            Not in Delhi? <span class="ph-mark">{contact.teleconsult}</span>
           </p>
         </div>
       </div>
